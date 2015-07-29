@@ -58,18 +58,20 @@ namespace SQL2Knex
                     if (reader.HasRows) {
                         sb.Append(GetStartFile(tableName));
                         while (reader.Read()) {
+                            sb.Append("    knex('" + tableName + "').insert({");
                             for (var i = 0; i < reader.FieldCount; i++)
                             {
                                 string name = reader.GetName(i);
                                 if (i == (reader.FieldCount - 1))
                                 {
-                                    sb.Append("      " + name + ": '" + reader[name].ToString() + "'" + LF);
+                                    sb.Append(name + ": '" + reader[name].ToString() + "'" + LF);
                                 }
                                 else
                                 {
-                                    sb.Append("      " + name + ": '" + reader[name].ToString() + "',");
+                                    sb.Append(name + ": '" + reader[name].ToString() + "', ");
                                 }
                             }
+                            sb.Append("}),");
                         }
                         sb.Append(GetEndFile());
                     }
@@ -82,8 +84,7 @@ namespace SQL2Knex
         {
             StringBuilder sb = new StringBuilder("exports.seed = function(knex, Promise) {" + LF +
                 "  return PRomise.join(" + LF + 
-                "    knex('" + tableName + "').del()," + LF +
-                "    knex('" + tableName + "').insert({" + LF
+                "    knex('" + tableName + "').del()," + LF
             );
             return sb.ToString();
         }
