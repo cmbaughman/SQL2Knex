@@ -83,7 +83,7 @@ namespace SQL2Knex
         public static String GetStartFile(string tableName)
         {
             StringBuilder sb = new StringBuilder("exports.seed = function(knex, Promise) {" + LF +
-                "  return PRomise.join(" + LF + 
+                "  return Promise.join(" + LF + 
                 "    knex('" + tableName + "').del()," + LF
             );
             return sb.ToString();
